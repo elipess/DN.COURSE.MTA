@@ -1,0 +1,129 @@
+namespace hourglass
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+
+
+
+
+            StringBuilder sb = new StringBuilder();
+
+            
+            sb.Append(' Enter the maximum number of *: ');
+            int n = Convert.ToInt32(Console.ReadLine());
+
+            sb.Append('\nHere is the Diamond of Stars\n');
+            //int val = 5;
+
+            if (n % 2 != 0)
+            {
+                int i, j, k;
+                if (n == 5)
+                {
+                    for (i = 1; i <= n; i = i + 2)
+                    {
+                        for (j = 1; j <= n - i; j++)
+                        {
+                            // sb.Append(" ");
+                        }
+                        for (k = 1; k <= j; k++)
+                        {
+                            sb.Append('*');
+                        }
+                        sb.Append('');
+                    }
+
+                    for (i = 3; i <= n; i = i + 2)
+                    {
+                        for (j = 1; j <= n - i; j++)
+                        {
+                            sb.Append('');
+                        }
+                        for (k = 1; k <= i; k++)
+                        {
+                            sb.Append('*');
+                        }
+                        sb.Append('');
+                    }
+
+					
+                }
+                else
+                {
+                    for (i = 1; i <= n; i = i + 2)
+                    {
+                        for (j = 1; j <= n - i; j++)
+                        {
+                            //sb.Append(" ");
+                        }
+                        for (k = 1; k <= j; k++)
+                        {
+                            sb.Append('*');
+                        }
+                        sb.Append('');
+                    }
+
+                    
+
+                       
+
+                            for (i =3; i <= n; i = i + 2)
+                            {
+                                for (j = 3; j <= n - i; j++)
+                                {
+                                    sb.Append('');
+                                }
+                                for (k = 1; k <= i; k++)
+                                {
+                                    sb.Append('*');
+                                }
+                                sb.Append('');
+                            }
+
+                    
+		   Console.Write(sb.ToString());
+                
+
+                }
+
+
+            }
+            else
+            {
+
+
+                for (int i = n - 1; i >= 1; i=i-2)
+                {
+                    for (int j = 0; j < (n - i); j++)
+                        sb.Append('');
+                    for (int j = 1; j <= i; j++)
+                        sb.Append('*');
+                    for (int k = 1; k < i; k++)
+                        sb.Append('*');
+                    sb.Append('');
+                } 
+
+                for (int i = 1; i <= n; i=i+2)
+                {
+                    for (int j = 0; j < (n - i); j++)
+                        sb.Append('');
+                    for (int j = 1; j <= i; j++)
+                        sb.Append('*');
+                    for (int k = 1; k < i; k++)
+                        sb.Append('*');
+                    sb.Append('');
+                }
+
+                
+		
+                sb.AppendLine();
+		Console.Write(sb.ToString());
+		
+            }
+        }
+        
+    }
+}
