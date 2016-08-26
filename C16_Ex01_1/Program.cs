@@ -3,124 +3,152 @@ using System.Text;
 
 namespace C16_Ex01_1
 {
-    class Program
+    public class Program
     {
-      
         public static void Main()
+        {
+            Q1(); 
+        }
+
+        private static void Q1()
         {
             const int k_baseOfConvertion = 2;
             const int k_numbersToAsk = 4;
 
-            int[] desimalNumbers = new int[k_numbersToAsk]; 
-            string[] strBinaryNumbers = new string[k_numbersToAsk]; 
-            bool goodInput = true;
-            string desimalStr = "";
-            int desimalNumber = 0;
-            int i = 0;
- 
-            Console.WriteLine("Please enter " + k_numbersToAsk + " numbers with 3 digits each:");
+            int[] decimalNumbers = GetInputFromUser(k_numbersToAsk);
+            StringBuilder[] binNumbers = ConvertToBin(decimalNumbers, k_baseOfConvertion);
 
-            while( i < k_numbersToAsk )
+            Console.WriteLine("The binary numbers are: ");
+            foreach (StringBuilder binNums in binNumbers)
             {
-                try
+                Console.WriteLine(binNums);
+            }
+
+            int avgDigitsOfBinaryNum = GetAvgNumOfDigits(ref binNumbers);
+            int generalAvgOfNumber = GetGeneralAvg(ref decimalNumbers);
+            int numOfAcendingOrder = GetAcending(ref decimalNumbers);
+            int numOfDescendingOrder = GetDescending(ref decimalNumbers);
+
+            Console.WriteLine("\nThe avarege number of digits in the binary number is " + avgDigitsOfBinaryNum + " .");
+            Console.WriteLine("The general avarege of the inserted numbers is " + generalAvgOfNumber + " .");
+            Console.WriteLine("There are " + numOfAcendingOrder + " numbers which are an ascending series and " + numOfDescendingOrder + " are descending.");
+        }
+
+        private static StringBuilder[] ConvertToBin(int[] i_decimalNumbers, int i_conversionBase)
+        {
+            StringBuilder[] o_binStrings = new StringBuilder[i_decimalNumbers.Length];
+            int counter = 0;
+
+            foreach (int dec in i_decimalNumbers)
+            {
+                o_binStrings[counter] = new StringBuilder();
+                int decReplicka = dec;
+                while (decReplicka != 0) 
                 {
-                    desimalStr = Console.ReadLine();
-                    desimalNumber = int.Parse(desimalStr);   
+                    int digit = decReplicka % 2;
+                    o_binStrings[counter].Insert(0, digit);
+                    decReplicka /= 2;
                 }
-                catch(Exception e)
+
+                counter++;
+            }
+
+            return o_binStrings;
+        }
+
+        private static int[] GetInputFromUser(int i_amountOfNumbers)
+        {
+            int[] resArr = new int[i_amountOfNumbers];
+            int i = 0;
+
+            Console.WriteLine("Please enter {0} numbers with 3 digits each", i_amountOfNumbers);
+
+            while (i < i_amountOfNumbers)
+            {
+                bool succedded;
+                string decimalStr;
+                int decimalNumber;
+
+                do
                 {
-                    goodInput = false;
+                    decimalStr = Console.ReadLine();
+                    succedded = int.TryParse(decimalStr, out decimalNumber);
+                    if (!succedded)
+                    {
+                        Console.WriteLine("The input you entered is invalid. Please try again.");
+                    }
                 }
+                while (!succedded);
 
-                if (goodInput != false && desimalStr.Length == 3 && desimalNumber > 0)
+                if (decimalStr.Length == 3 && decimalNumber > 0)
                 {
-                    string binary = Convert.ToString(desimalNumber, k_baseOfConvertion);
-
-                    desimalNumbers[i] = desimalNumber;
-                    strBinaryNumbers[i++] = binary;
-
+                    resArr[i++] = decimalNumber; 
                 }
                 else
                 {
                     Console.WriteLine("The input you entered is invalid. Please try again.");
                 }
-
-                goodInput = true;
             }
 
-            Console.Write("The binary numbers are: ");
-            for( i = 0 ; i < k_numbersToAsk ; i++)
-            {
-                Console.Write(strBinaryNumbers[i] + " ");
-            }
-
-            int avgDigitsOfBinaryNum = GetAvgNumOfDigits(ref strBinaryNumbers);
-            int generalAvgOfNumber = GetGeneralAvg(ref desimalNumbers);
-            int numOfAcendingOrder = GetAcending(ref desimalNumbers);
-            int numOfDescendingOrder = GetDescending(ref desimalNumbers);
-
-            Console.WriteLine("\nThe avarege number of digits in the binary number is " + avgDigitsOfBinaryNum + " .");
-            Console.WriteLine("The general avarege of the inserted numbers is " + generalAvgOfNumber + " .");
-            Console.WriteLine("There are " + numOfAcendingOrder +" numbers which are an ascending series and " + numOfDescendingOrder + " are descending.");
-
+            return resArr;
         }
 
-        public static int GetAvgNumOfDigits(ref string[] io_binary)
+        public static int GetAvgNumOfDigits(ref StringBuilder[] io_binary)
         {
-            int avg = 0, sumOfDigits = 0;
+            int o_avg = 0, sumOfDigits = 0;
 
             for (int i = 0; i < io_binary.Length; i++)
             {
                 sumOfDigits += io_binary[i].Length;
             }
 
-            avg = (sumOfDigits / io_binary.Length);
+            o_avg = sumOfDigits / io_binary.Length;
 
-            return avg;
+            return o_avg;
         }
+
         public static int GetGeneralAvg(ref int[] io_desimal)
         {
-            int avg = 0 , sumOfDesimalNum = 0;
+            int o_avg = 0, sumOfDesimalNum = 0;
 
             for (int i = 0; i < io_desimal.Length; i++ )
             {
                 sumOfDesimalNum += io_desimal[i]; 
             }
 
-            avg = (sumOfDesimalNum / io_desimal.Length) ; 
+            o_avg = sumOfDesimalNum / io_desimal.Length;
             
-            return avg;
+            return o_avg;
         }
+
         public static int GetAcending(ref int[] io_desimal)
         {
-            int numOfAscending = 0;
+            int o_numOfAscending = 0;
 
             for (int i = 0; i < io_desimal.Length; i++)
             {
-                
-                if(((io_desimal[i])%10 > ((io_desimal[i])/10)%10) && (((io_desimal[i])/10)%10 > io_desimal[i]/100))
+                if ((io_desimal[i] % 10 > (io_desimal[i] / 10) % 10) && ((io_desimal[i] / 10) % 10 > io_desimal[i] / 100)) 
                 {
-                    numOfAscending++;
+                    o_numOfAscending++;
                 }
-
             }
 
-            return numOfAscending;
+            return o_numOfAscending;
         }
+
         public static int GetDescending(ref int[] io_desimal)
         {
-            int numOfDescending = 0;
+            int o_numOfDescending = 0;
 
             for (int i = 0; i < io_desimal.Length; i++)
             {
-                if(((io_desimal[i])%10 < ((io_desimal[i])/10)%10) && (((io_desimal[i])/10)%10 < io_desimal[i]/100))
+                if ((io_desimal[i] % 10 < (io_desimal[i] / 10) % 10) && ((io_desimal[i] / 10) % 10 < io_desimal[i] / 100)) 
                 {
-                    numOfDescending++;
+                    o_numOfDescending++;
                 }
-
             }
 
-            return numOfDescending;
+            return o_numOfDescending;
         }
     }
 }

@@ -4,124 +4,108 @@ using System.Text;
 
 namespace C16_Ex01_4
 {
-    class Program
+    public class Program
     {
-
         public enum strType
         {
-            Digits = 1, Letters = 2
-        };
-        static void Main(string[] args)
+            Digits = 1,
+            Letters = 2
+        }
+
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Please enter a string with size 10 :");
+            Q4();
+        }
 
-            int digitsOrLetters;
-            bool isPalindrom = true;
-            string strToAnalyze = GetStrFromConsole(out digitsOrLetters);
+        private static void Q4()
+        { 
+            strType digitsOrLetters;
+            string strToAnalyze = GetStrFromUser(out digitsOrLetters);
 
+            printStats(strToAnalyze, digitsOrLetters);
+        }
+
+        private static void printStats(string strToAnalyze, strType digitsOrLetters)
+        {
+            Console.WriteLine("String Statistics:");
+            string palindromMsg = CheckIfStrIsPalindrom(strToAnalyze) ? null : "not";
+            Console.WriteLine("The string is {0} a palindrom", palindromMsg);
             switch (digitsOrLetters)
             {
-                case 1:
+                case strType.Digits:
                     {
-                        isPalindrom = CheckIfStrIsPalindrom(strToAnalyze);
                         double avgOfDigits = CheckAvgOfStrDigits(strToAnalyze);
 
-                        Console.WriteLine("String Statistics :");
+                        Console.WriteLine("The average of the digits in the string is {0}.", avgOfDigits);
 
-                        if (isPalindrom)
-                        {
-                            Console.WriteLine("The string is Palindrom");
-
-                        }
-                        else
-                        {
-                            Console.WriteLine("The string is not Palindrom");
-
-                        }
-
-                        Console.WriteLine("The average of the digits in the string is " + avgOfDigits + " .");
                         break;
                     }
-                case 2:
+
+                case strType.Letters:
                     {
-                        isPalindrom = CheckIfStrIsPalindrom(strToAnalyze);
                         int numOfCamelCaseLetters = CheckNumOfCamelLetters(strToAnalyze);
-                        Console.WriteLine("String Statistics :");
 
-                        if (isPalindrom)
-                        {
-                            Console.WriteLine("The string is Palindrom");
-
-                        }
-                        else
-                        {
-                            Console.WriteLine("The string is not Palindrom");
-
-                        }
-                        Console.WriteLine("The number of the Camel case letters is " + numOfCamelCaseLetters + ".");
+                        Console.WriteLine("The number of the Camel case letters is {0}.", numOfCamelCaseLetters);
 
                         break;
                     }
-
             }
         }
 
-
-        public static string GetStrFromConsole(out int io_numericOrLetters)
+        public static string GetStrFromUser(out strType io_numericOrLetters)
         {
-            bool goodInput = true;
+            int i_inputInt;
+            string io_inputStr;
 
-            string o_strToAnalyze = "";
-
-            io_numericOrLetters = 0;
-
-            bool firstTimeAskForNumber = true;
-
-            while (firstTimeAskForNumber || !goodInput)
+            do
             {
-                 o_strToAnalyze = Console.ReadLine();
+                Console.WriteLine("Please type a 10 long string that contains only numbers or English letters:");
+                io_inputStr = Console.ReadLine();
+                if (io_inputStr.Length != 10) 
+                {
+                    Console.WriteLine("Error - Please type 10 letters or 10 digits");
+                    continue;
+                }
 
-                 int numericStr;
+                if (int.TryParse(io_inputStr, out i_inputInt))
+                {
+                    io_numericOrLetters = strType.Digits;
+                   
+                    break;
+                }
+                else
+                {
+                    if(CheckIfStringIsAllLetters(io_inputStr))
+                    {
+                        io_numericOrLetters = strType.Letters;
 
-                 bool digitsOnly = int.TryParse(o_strToAnalyze, out numericStr);
-
-                 int numOFLetters = 0;
-
-                 for(int i=0; i < o_strToAnalyze.Length; i++)
-                 {
-                     if(o_strToAnalyze[i] >= 'a' && o_strToAnalyze[i] <= 'z' || o_strToAnalyze[i] >= 'A' && o_strToAnalyze[i] <= 'Z')
-                     {
-                        numOFLetters++;
-                     }
-                 }
-   
-               
-                 if(!digitsOnly && numOFLetters == 10 )
-                 {
-                     io_numericOrLetters = (int)strType.Letters;
-                 }
-                 else if(digitsOnly && o_strToAnalyze.Length == 10)
-                 {
-                     io_numericOrLetters = (int)strType.Digits;
-                 }
-                 else
-                 {
-                     Console.WriteLine("The input you entered is invalid. Please try again.");
-                     goodInput = false;
-                     io_numericOrLetters = (int)strType.Digits;
-                 }
-
-                 firstTimeAskForNumber = false;
+                        break;
+                    }
+                }
             }
-            
-            return o_strToAnalyze;
-           
+            while (true);
+
+            return io_inputStr;
         }
+
+        private static bool CheckIfStringIsAllLetters(string i_string)
+        {
+            bool o_res = true;
+
+            foreach (char ch in i_string)
+            {
+                if (char.IsLetter(ch) == false)  
+                {
+                    o_res = false;
+                }
+            }
+
+            return o_res;
+        }
+
         public static bool CheckIfStrIsPalindrom(string i_StrToAnalyze)
         {            
-        
             int length = i_StrToAnalyze.Length;
-
             bool o_IsPalindrom = true;
 
             for (int i = 0; i < length / 2; i++)
@@ -130,18 +114,18 @@ namespace C16_Ex01_4
                 {
                     o_IsPalindrom = false;
                 }
-      
             }
+
             return o_IsPalindrom;
-            
         }
 
         public static int CheckNumOfCamelLetters(string i_StrToAnalyze)
         {
             int numOFCamelCaseLetters = 0;
+
             for (int i = 0; i < i_StrToAnalyze.Length; i++)
             {
-                if (i_StrToAnalyze[i] >= 'A' && i_StrToAnalyze[i] <= 'Z')
+                if (char.IsUpper(i_StrToAnalyze[i]))
                 {
                     numOFCamelCaseLetters++;
                 }
@@ -149,23 +133,23 @@ namespace C16_Ex01_4
 
             return numOFCamelCaseLetters;
         }
+
         public static double CheckAvgOfStrDigits(string i_StrToAnalyze)
         {
             int numericStr;
-
             bool digitsOnly = int.TryParse(i_StrToAnalyze, out numericStr);
-
-            int sumOfDigitsOfSte = 0;
+            int sumOfDigitsOfStr = 0;
             double avgOfDigitsOfStr = 0;
+
             while (numericStr != 0)
             {
-                sumOfDigitsOfSte += numericStr % 10;
+                sumOfDigitsOfStr += numericStr % 10;
                 numericStr /= i_StrToAnalyze.Length;
             }
 
-            return avgOfDigitsOfStr = sumOfDigitsOfSte / (double)i_StrToAnalyze.Length;
+            avgOfDigitsOfStr = sumOfDigitsOfStr / (double)i_StrToAnalyze.Length;
 
+            return avgOfDigitsOfStr;
         }
-      
     }
 }

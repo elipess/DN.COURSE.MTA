@@ -3,23 +3,37 @@ using System.Text;
 
 namespace C16_Ex01_2
 {
-
-    class Program
+    public class Program
     {
-        public static StringBuilder hourGlass = new StringBuilder();
-        public static int numOfLinesForHourGlass = 5;
-        public static void main()
+        public static void Main()
         {
-            DrawHourGlass(numOfLinesForHourGlass);
+            Q2();
+        }
+
+        private static void Q2()
+        {
+            const int k_numOfLinesForHourGlass = 5;
+
+            StringBuilder hourGlass = CreateHourGlass(k_numOfLinesForHourGlass);
             Console.WriteLine(hourGlass);
         }
-        public static void DrawHourGlass(int i_NumOfLinesForHourGlass)
+
+        public static StringBuilder CreateHourGlass(int i_NumOfLinesForHourGlass)
         {
-            BuildTopPyramid(i_NumOfLinesForHourGlass);
-            BuildTopPyramid(i_NumOfLinesForHourGlass);
+            StringBuilder res = new StringBuilder();
+
+            if (i_NumOfLinesForHourGlass % 2 == 0) 
+            {
+                i_NumOfLinesForHourGlass++;
+            }
+
+            BuildTopPyramid(i_NumOfLinesForHourGlass, ref res);
+            BuildButtomPyramid(i_NumOfLinesForHourGlass, ref res);
+
+            return res;
         }
-      
-        public static void BuildTopPyramid(int i_SizeOfHourGlass)
+
+        public static void BuildTopPyramid(int i_SizeOfHourGlass, ref StringBuilder hourGlass)
         {
             int height = (i_SizeOfHourGlass + 1) / 2;
        
@@ -28,41 +42,45 @@ namespace C16_Ex01_2
                 for (int leftSpaces = 0; leftSpaces < row; leftSpaces++)
                 {
                     hourGlass.Append(" ");
-                }   
-                for (int stars = 0; stars < 2 * (height - row); stars ++)
+                }
+
+                for (int stars = 0; stars < i_SizeOfHourGlass - (row * 2); stars++) 
                 {
                     hourGlass.Append("*");
                 }
+
                  for (int rightSpaces = 0; rightSpaces < row; rightSpaces++)
                 {
                     hourGlass.Append(" ");
                 }    
+
                 hourGlass.Append("\n");
             }
         }
-        public static void BuildButtomPyramid(int i_SizeOfHourGlass)
+
+        public static void BuildButtomPyramid(int i_SizeOfHourGlass, ref StringBuilder hourGlass)
         {
-
-            int height = (i_SizeOfHourGlass + 1) / 2;
-
-            for (int row = 0; row < height; row++)
+            ////for 1 height sand clock we dont need buttom...
+            if (i_SizeOfHourGlass > 1) 
             {
-                for (int leftSpaces = height ; row < leftSpaces; leftSpaces--)
-                {
-                    hourGlass.Append(" ");
-                }
-                for (int stars = 2 * (height - row); stars - row < (2 * height) + 1; stars--)
-                {
-                    hourGlass.Append("*");
-                }
-                for (int rightSpaces = height; row < rightSpaces ; rightSpaces--)
-                {
-                    hourGlass.Append(" ");
-                }
-                hourGlass.Append("\n");
+                string reversedString = ReverseString(hourGlass.ToString());
+                DeleteMiddleRow(ref reversedString);
+                hourGlass.Append(reversedString);
             }
-
         }
 
+        private static void DeleteMiddleRow(ref string io_reversedString)
+        {
+            int indexOfStar = io_reversedString.IndexOf('*');
+            indexOfStar = (indexOfStar * 2) + 1; ////calculating the num of chars to delete from the string
+            io_reversedString = io_reversedString.Remove(0, indexOfStar);
+        }
+
+        private static string ReverseString(string i_str)
+        {
+            char[] arr = i_str.ToCharArray();
+            Array.Reverse(arr);
+            return new string(arr);
+        }
     }
 }

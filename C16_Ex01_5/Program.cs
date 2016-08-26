@@ -13,11 +13,11 @@ namespace C16_Ex01_5
 
         public static void Q5()
         {
-            int i_num = getNumFromUser();
-            int biggestDigit = extractBiggestDigitFromNum(i_num);
-            int smallestDigit = extractSmallestDigitFromNum(i_num);
-            int amountOfLargestFromUnity = getAmountOfLargestFromUnity(i_num);
-            int amountOfSmallestFromUnity = getAmountOfSmallestFromUnity(i_num);
+            int i_num = GetNumFromUser();
+            int biggestDigit = ExtractBiggestDigitFromNum(i_num);
+            int smallestDigit = ExtractSmallestDigitFromNum(i_num);
+            int amountOfLargestFromUnity = GetAmountOfLargestFromUnity(i_num);
+            int amountOfSmallestFromUnity = GetAmountOfSmallestFromUnity(i_num);
 
             Console.WriteLine(
 @"The biggest digit in your number is: {0}.
@@ -25,10 +25,13 @@ And the smallest digit is: {1}.
 However, there is {2} digits that is bigger then your unity digit,
 and {3} digits that is smaller than your unity digit.
 Very important information, ha?",
-biggestDigit, smallestDigit, amountOfLargestFromUnity, amountOfSmallestFromUnity);
+biggestDigit,
+smallestDigit,
+amountOfLargestFromUnity,
+amountOfSmallestFromUnity);
         }
 
-        private static int getAmountOfSmallestFromUnity(int i_num)
+        private static int GetAmountOfSmallestFromUnity(int i_num)
         {
             int unity = i_num % 10;
             int res = 0;
@@ -47,12 +50,12 @@ biggestDigit, smallestDigit, amountOfLargestFromUnity, amountOfSmallestFromUnity
             return res;
         }
 
-        private static int getAmountOfLargestFromUnity(int i_num)
+        private static int GetAmountOfLargestFromUnity(int i_num)
         {
             int unity = i_num % 10;
             int res = 0;
             
-            //to ignore the unity digit
+            ////to ignore the unity digit
             i_num /= 10; 
             while (i_num > 0)
             {
@@ -67,49 +70,39 @@ biggestDigit, smallestDigit, amountOfLargestFromUnity, amountOfSmallestFromUnity
             return res;
         }
 
-        private static int extractSmallestDigitFromNum(int i_num)
+        private static int ExtractSmallestDigitFromNum(int i_num)
         {
-            int minDigit = i_num % 10;
+            int minDigit = Math.Abs(i_num % 10);
 
             while (i_num != 0)
             {
-                int digit = i_num % 10;
-                if (digit < minDigit)
-                {
-                    minDigit = digit;
-                }
-
+                minDigit = Math.Min(Math.Abs(i_num % 10), minDigit);
                 i_num /= 10;
             }
 
             return minDigit;
         }
 
-        private static int extractBiggestDigitFromNum(int i_num)
+        private static int ExtractBiggestDigitFromNum(int i_num)
         {
-            int maxDigit = i_num % 10;
+            int maxDigit = Math.Abs(i_num % 10);
 
             while (i_num != 0)
             {
-                int digit = i_num % 10;
-                if (digit > maxDigit)
-                {
-                    maxDigit = digit;
-                }
-
+                maxDigit = Math.Max(Math.Abs(i_num % 10), maxDigit);
                 i_num /= 10;
             }
 
             return maxDigit;
         }
 
-        private static int getNumFromUser()
+        private static int GetNumFromUser()
         {
             int res;
             string i_numStr;
 
             Console.WriteLine("Hello! Please enter a number and press Enter: ");
-            //try to get good input from user untill he finnaly does that...
+            ////try to get good input from user untill he finnaly does that...
             while (true)
             {
                 try

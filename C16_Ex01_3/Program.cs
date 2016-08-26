@@ -1,45 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using SimpleHourGlass = C16_Ex01_2.Program;
 
-
 namespace C16_Ex01_3
 {
-    class Program
+    public class Program
     {
-        public static void main()
+        public static void Main()
         {
-
             Console.WriteLine("Please enter the number of lines for the sand machine:");
-
             int numOfLinesForSandWatch = GetNumOfLinesToPrint();
-
-            SimpleHourGlass.DrawHourGlass(numOfLinesForSandWatch);
+            StringBuilder hourGlass = SimpleHourGlass.CreateHourGlass(numOfLinesForSandWatch);
+            Console.WriteLine(hourGlass);
         }
 
         public static int GetNumOfLinesToPrint()
         {
             int o_numOfLines = 0;
-            bool goodInput = true;
-            bool firstTimeAskForNumber = true;
+            bool goodInput = false;
 
-            while (firstTimeAskForNumber || goodInput)
+            do
             {
-                String steNumber = Console.ReadLine();
+                string strNumber = Console.ReadLine();
 
-                goodInput = Int32.TryParse(steNumber, out o_numOfLines);
+                goodInput = int.TryParse(strNumber, out o_numOfLines);
 
-                if (goodInput != true)
+                if (goodInput == false || o_numOfLines <= 0)
                 {
                     Console.WriteLine("The input you entered is invalid. Please try again.");
-                    firstTimeAskForNumber = false;
-                }
-                else
-                {
-                    Console.WriteLine(o_numOfLines);
+                    goodInput = false;
                 }
             }
+            while (goodInput == false);
 
             return o_numOfLines;
         }
