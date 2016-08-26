@@ -37,6 +37,12 @@
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\C16_Ex01_2\C16_Ex01_2.csproj">
+      <Project>{3c61368b-bacd-4ef5-849d-23ed39249976}</Project>
+      <Name>C16_Ex01_2</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
