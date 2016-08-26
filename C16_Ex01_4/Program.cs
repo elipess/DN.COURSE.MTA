@@ -118,33 +118,22 @@ namespace C16_Ex01_4
            
         }
         public static bool CheckIfStrIsPalindrom(string i_StrToAnalyze)
-        {
-            StringBuilder builder = new StringBuilder(i_StrToAnalyze.Length);
-            for (int i = i_StrToAnalyze.Length - 1; i >= 0; i--)
+        {            
+        
+            int length = i_StrToAnalyze.Length;
+
+            bool o_IsPalindrom = true;
+
+            for (int i = 0; i < length / 2; i++)
             {
-                builder.Append(i_StrToAnalyze[i]);
+                if (i_StrToAnalyze[i] != i_StrToAnalyze[length - i - 1])
+                {
+                    o_IsPalindrom = false;
+                }
+      
             }
-
-
-            switch (digitsOrLetters)
-            {
-                case 1:
-                    {
-                      
-                        break;
-                    }
-                case 2:
-                      {
-                         StringBuilder builder = new StringBuilder(i_StrToAnalyze.Length);
-                         for (int i = i_StrToAnalyze.Length - 1; i >= 0; i--)
-                         { 
-                              builder.Append(i_StrToAnalyze[i]);
-                         }
-
-                         break;
-                      }
-                      
-                      return i_StrToAnalyze.Equals(builder.ToString());
+            return o_IsPalindrom;
+            
         }
 
         public static int CheckNumOfCamelLetters(string i_StrToAnalyze)
